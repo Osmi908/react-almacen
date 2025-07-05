@@ -1,0 +1,147 @@
+Listado de rutas de carpetas
+El número de serie del volumen es 2899-6103
+D:.
+¦   App.css
+¦   App.tsx
+¦   estructura.txt
+¦   global.d.ts
+¦   index.css
+¦   index.tsx
+¦   LandingPage.tsx
+¦   LoadingContext.tsx
+¦   logo.svg
+¦   ProtectedRoute.tsx
+¦   react-app-env.d.ts
+¦   reportWebVitals.ts
+¦   route-config.ts
+¦   setupTests.ts
+¦   Validaciones.ts
+¦   
++---Acciones
+¦       acciones.model.d.ts
+¦       CrearAccion.tsx
+¦       FormularioAcciones.tsx
+¦       GestionAcciones.tsx
+¦       IndiceAcciones.tsx
+¦       
++---actores
+¦       actores.model.d.ts
+¦       CrearActores.tsx
+¦       EditarActores.tsx
+¦       FormularioActores.tsx
+¦       IndiceActores.tsx
+¦       
++---auth
+¦       AutenticacionContext.ts
+¦       auth.model.d.ts
+¦       Autorizado.tsx
+¦       FormularioAuth.tsx
+¦       IndiceUsuarios.tsx
+¦       Login.tsx
+¦       manejadorJWT.ts
+¦       Registro.tsx
+¦       
++---carrito
+¦       carrito.model.ts
+¦       Carrito.tsx
+¦       CarritoContext.tsx
+¦       
++---categorias
+¦       Categorias.model.d.ts
+¦       CrearCategoria.tsx
+¦       EditarCategoria.tsx
+¦       FormularioCategorias.tsx
+¦       IndiceCategorias.tsx
+¦       
++---cines
+¦       cines.model.d.ts
+¦       CreaCine.tsx
+¦       EditarCine.tsx
+¦       FormularioCines.tsx
+¦       IndiceCines.tsx
+¦       
++---claveValor
++---dashboards
+¦       AdminDashboard.tsx
+¦       AsistenteDashboard.tsx
+¦       EncargadoDashboard.tsx
+¦       SolicitanteDashboard.tsx
+¦       
++---envios
++---generos
+¦       CrearGenero.tsx
+¦       EditarGenero.tsx
+¦       FormularioGeneros.tsx
+¦       generos.model.d.ts
+¦       IndiceGeneros.tsx
+¦       
++---peliculas
+¦       CrearPeliculas.tsx
+¦       EditarPeliculas.tsx
+¦       FiltroPeliculas.tsx
+¦       FormGroupCheckbox.tsx
+¦       FormularioPeliculas.tsx
+¦       ListadoPeliculas.module.css
+¦       ListadoPeliculas.tsx
+¦       PeliculaIndividual.module.css
+¦       PeliculaIndividual.tsx
+¦       peliculas.model.d.ts
+¦       
++---Producto
+¦       CrearProducto.tsx
+¦       FiltroProductos.tsx
+¦       FormularioProducto.tsx
+¦       IndiceProductos.tsx
+¦       ListadoProductos.tsx
+¦       ProductoIndividual.tsx
+¦       productos.model.d.ts
+¦       
++---solicitudes
+¦       CrearSolicitud.tsx
+¦       DetalleSolicitud.tsx
+¦       FormularioSolicitud.tsx
+¦       FormularioSolicitudes.tsx
+¦       GestionSolicitudes.tsx
+¦       IndiceSolicitudes.tsx
+¦       ListadoSolicitudes.tsx
+¦       ModalAgregarProducto.tsx
+¦       PanelSolicitudes.tsx
+¦       solicitud.model.ts
+¦       solicitudes.model.d.ts
+¦       
++---utils
+        axiosConfig.ts
+        Badge.tsx
+        boton.svg
+        Breadcrumbs.tsx
+        Button.tsx
+        CampoFecha.tsx
+        cargando.tsx
+        Confirmar.ts
+        EditarEntidad.tsx
+        ElegantTable.tsx
+        endpoints.ts
+        Filtro.tsx
+        FloatingCartButton.tsx
+        FormDataUtils.ts
+        FormGroupFecha.tsx
+        FormGroupImagen.tsx
+        FormGroupMarkdown.css
+        FormGroupMarkdown.tsx
+        FormGroupText.tsx
+        FormularioGenerico.tsx
+        Header.tsx
+        IndiceEntidad.tsx
+        ListadoGenerico.tsx
+        ListaMenu.tsx
+        menu.tsx
+        MostrarErrorCampo.tsx
+        MostrarErrores.tsx
+        Paginacion.tsx
+        REdireccionarLanding.tsx
+        SelectorMultiple.css
+        SelectorMultiple.tsx
+        SideMenu.tsx
+        TablaGenerica.tsx
+        theme.ts
+        

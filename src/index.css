@@ -1,0 +1,51 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.rojo{
+  color: red;
+}
+.color{
+  color:blue
+}
+form > a{
+  margin-left: 1rem;
+}
+.pointer{
+  cursor:pointer;
+}
+.table a{
+  margin-right: 1rem;
+}
+/* Estilo general del header */
+header {
+  background-color: #f8f9fa; /* Fondo claro */
+  border-bottom: 2px solid #007bff; /* Línea azul */
+}
+
+/* Estilo para el logo */
+header .navbar-brand img {
+  border-radius: 10%; /* Bordes ligeramente redondeados */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+}
+
+/* Título */
+header .navbar-brand span {
+  color: #007bff; /* Azul UTB */
+  font-weight: bold;
+}
+
+/* Hover en íconos */
+header .bi:hover {
+  color: #0056b3; /* Azul más oscuro */
+  cursor: pointer;
+}
