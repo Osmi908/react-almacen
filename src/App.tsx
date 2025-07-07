@@ -24,6 +24,7 @@ export default function App() {
     }, []);
 
     function actualizar(claims: claim[]) { setClaims(claims) };
+    const nombre= claims.find(claim => claim.nombre === 'name')?.valor || '';
     function esAdmin() {
         return claims.findIndex(claims => claims.nombre === 'role' && claims.valor === 'acad_estudiante') > -1
     };
@@ -38,7 +39,7 @@ export default function App() {
             <BrowserRouter>
                 <AutenticacionContext.Provider value={{ claims, actualizar }}>
                     {isAuthenticated ?
-                        <Menu themeToggle={<ThemeToggleButton darkMode={darkMode} toggleDarkMode={toggleDarkMode} />}>
+                        <Menu userName={nombre} themeToggle={<ThemeToggleButton darkMode={darkMode} toggleDarkMode={toggleDarkMode} />}>
                             <Breadcrumbs />
                             <Routes>
                                 {rutas.map(ruta =>

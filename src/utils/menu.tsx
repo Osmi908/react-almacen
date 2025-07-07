@@ -19,7 +19,10 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ListaMenu from './ListaMenu';
-import { Container } from '@mui/material';
+import { Container, 
+  Avatar,
+  Menu as Menu1,
+  MenuItem } from '@mui/material';
 
 const drawerWidth = 240;
 
@@ -106,12 +109,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 export interface menuProps{
   children:React.ReactNode;
+  userName: string;
   themeToggle?: React.ReactNode;
 }
 
 export default function Menu(props:menuProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,6 +126,14 @@ export default function Menu(props:menuProps) {
     setOpen(false);
   };
 
+
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -145,17 +158,21 @@ export default function Menu(props:menuProps) {
           </Typography>
           {props.themeToggle}
         </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        <IconButton onClick={handleUserMenuClick} color="inherit">
+            <Avatar>{props.userName.charAt(0)}</Avatar>
           </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <ListaMenu/>
-        <Divider/>
-      </Drawer>
+          <Menu1
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleUserMenuClose}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          >
+            <MenuItem disabled>{props.userName}</MenuItem>
+            <Divider />
+            {props.themeToggle && <MenuItem onClick={handleUserMenuClose}>{props.themeToggle}</MenuItem>}
+            <MenuItem onClick={() => alert('Cerrar sesión')}>Cerrar sesión</MenuItem>
+          </Menu1>
+      </AppBar>
       <Box component="main" sx={{ flexGrow: 1, p: 2 }} >
         <DrawerHeader />
         <Container maxWidth="lg">
