@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
+import {rechazarSolicitud} from "../api/solicitudes";
+import Swal from "sweetalert2"; 
 import {
-  Box, Button, Stack, Tooltip, IconButton
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, IconButton, Tooltip, Stack
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 import { SolicitudDTO } from "./solicitudes.model";
-import { obtenerSolicitudes, obtenerSolicitudesPorTipo } from "../api/solicitudes";
+import { obtenerSolicitudesPorTipo } from "../api/solicitudes";
 
 interface Props {
   tipo: "pendientes" | "gestionadas";
@@ -22,76 +24,112 @@ export default function TablaSolicitudes({ tipo }: Props) {
   useEffect(() => {
     const cargarSolicitudes = async () => {
       setLoading(true);
-      const data = await obtenerSolicitudesPorTipo(tipo); // Aquí filtras en el servicio
+      const data = await obtenerSolicitudesPorTipo(tipo);
       setSolicitudes(data);
       setLoading(false);
     };
     cargarSolicitudes();
   }, [tipo]);
 
-  const columnas: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 80 },
-    { field: "fecha", headerName: "Fecha", width: 130 },
-    { field: "solicitante", headerName: "Solicitante", flex: 1 },
-    { field: "estado", headerName: "Estado", width: 150 },
-    { field: "descripcion", headerName: "Descripción", flex: 2 },
-    {
-      field: "acciones",
-      headerName: "Acciones",
-      width: 180,
-      renderCell: ({ row }) => (
-        <Stack direction="row" spacing={1}>
-          <Tooltip title="Ver detalle">
-            <IconButton size="small" color="primary" onClick={() => verDetalle(row.id)}>
-              <VisibilityIcon />
-            </IconButton>
-          </Tooltip>
-
-          {tipo === "pendientes" && (
-            <>
-              <Tooltip title="Gestionar">
-                <IconButton size="small" color="success" onClick={() => gestionarSolicitud(row.id)}>
-                  <SettingsIcon />
-                </IconButton>
-              </Tooltip>
-
-              <Tooltip title="Rechazar">
-                <IconButton size="small" color="error" onClick={() => rechazarSolicitud(row.id)}>
-                  <CancelIcon />
-                </IconButton>
-              </Tooltip>
-            </>
-          )}
-        </Stack>
-      )
-    }
-  ];
-
   const verDetalle = (id: number) => {
     console.log("Ver detalle solicitud", id);
-    // Navegación a componente de detalle
   };
 
   const gestionarSolicitud = (id: number) => {
     console.log("Gestionar solicitud", id);
-    // Redirigir a componente de gestión
   };
 
-  const rechazarSolicitud = (id: number) => {
-    if (confirm("¿Deseas rechazar esta solicitud?")) {
-      console.log("Solicitud rechazada:", id);
-      // Llamar API para cambiar estado
+  const manejarRechazoSolicitud = (id: number) => {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "¿Deseas rechazar esta solicitud?",
+    icon: "warning",
+    showCancelButton: true,
+    input: "text",
+    inputPlaceholder: "Motivo del rechazo",
+    confirmButtonColor: "#d33",
+    cancelButtonColor: "#3085d6",
+    confirmButtonText: "Sí, rechazar",
+    cancelButtonText: "Cancelar",
+    inputValidator: (value) => {
+  if (!value) {
+    return "Debes ingresar un motivo de rechazo";
+  }
+  return null;
+}
+  }).then((result) => {
+    if (result.isConfirmed && result.value) {
+      console.log("Solicitud rechazada por:", result.value);
+      
+      // Aquí llamas a la función que hace el rechazo real
+      rechazarSolicitud(id, result.value)
+        .then(() => {
+          Swal.fire("Rechazada", "La solicitud fue rechazada correctamente.", "success");
+        })
+        .catch((error) => {
+          console.error("Error al rechazar solicitud:", error);
+          Swal.fire("Error", "No se pudo rechazar la solicitud.", "error");
+        });
     }
-  };
+  });
+};
 
   return (
-    <Box sx={{ height: 500, width: "100%" }}>
-      <DataGrid
-        rows={solicitudes}
-        columns={columnas}
-        loading={loading}
-        disableRowSelectionOnClick
-      />
-    </Box>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Fecha</TableCell>
+            <TableCell>Solicitante</TableCell>
+            <TableCell>Estado</TableCell>
+            <TableCell>Descripción</TableCell>
+            <TableCell>Acciones</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={6}>Cargando...</TableCell>
+            </TableRow>
+          ) : (
+            solicitudes.map((sol) => (
+              <TableRow key={sol.id_solicitud}>
+                <TableCell>{sol.id_solicitud}</TableCell>
+                <TableCell>{sol.fecha_solicitud?.toString().split("T")[0]}</TableCell>
+                <TableCell>{sol.nombre_usuario_solicitud}</TableCell>
+                <TableCell>{sol.estado}</TableCell>
+                <TableCell>{sol.descripcion}</TableCell>
+                <TableCell>
+                  <Stack direction="row" spacing={1}>
+                    <Tooltip title="Ver detalle">
+                      <IconButton size="small" color="primary" onClick={() => verDetalle(sol.id_solicitud)}>
+                        <VisibilityIcon />
+                      </IconButton>
+                    </Tooltip>
+
+                    {tipo === "pendientes" && (
+                      <>
+                        <Tooltip title="Gestionar">
+                          <IconButton size="small" color="success" onClick={() => gestionarSolicitud(sol.id_solicitud)}>
+                            <SettingsIcon />
+                          </IconButton>
+                        </Tooltip>
+
+                        <Tooltip title="Rechazar">
+                          <IconButton size="small" color="error" onClick={() => manejarRechazoSolicitud(sol.id_solicitud)}>
+                            <CancelIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                    )}
+                  </Stack>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

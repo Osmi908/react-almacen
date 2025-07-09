@@ -33,6 +33,7 @@ export interface Solicitud{
     cla_prioridad_solicitud:number;
     fecha_entrega_deseada:string;
     fecha_solicitud:string;
+    justificacion_estado?: string;
     detalles:DetalleSolicitud[]
 }
 export interface SolicitudDTO{
@@ -49,6 +50,7 @@ export interface SolicitudDTO{
     prioridad:string;
     fecha_entrega_deseada:string;
     fecha_solicitud:string;
+    justificacion_estado?: string;
 }
 export interface SolicitudCreacionDTO {
     cla_estado_solicitud: number;

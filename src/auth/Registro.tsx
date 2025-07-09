@@ -15,7 +15,6 @@ export default function Registro(){
     async function registrar(credenciales:credencialesUsuario){
        
         try {
-            console.log(`holaaaaaaa!! ${urlCuentas} porsiiiiii`);
             const respuesta= await axios.post<respuestaAutenticacion>(`${urlCuentas}/registro`,credenciales);
             guardarTokenLocalStorage(respuesta.data);
             actualizar(obtenerClaims());
