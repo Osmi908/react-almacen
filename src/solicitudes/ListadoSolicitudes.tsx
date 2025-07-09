@@ -219,7 +219,7 @@ export default function ListadoSolicitudes(props:listaSolicitudesProps) {
               .map((solicitud,index) => (
                 <TableRow key={index}>
                   <TableCell>{solicitud.prioridad}</TableCell>
-                  <TableCell>{solicitud.nombre_usuario_revisor|| "sin revision"}</TableCell>
+                  <TableCell>{solicitud.nombre_usuario_revisor|| "sin registro"}</TableCell>
                   <TableCell><CampoFecha fecha={solicitud.fecha_solicitud}/></TableCell>
                   <TableCell>{renderEstadoSolicitud(solicitud.cla_estado_solicitud,solicitud.nombre_usuario_revisor)}</TableCell>
                   <TableCell>                      
