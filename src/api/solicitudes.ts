@@ -18,3 +18,7 @@ export async function obtenerDetallesSolicitud(idSolicitud: number): Promise<Det
 export async function obtenerSolicitudesPorUsuario(guid: string): Promise<SolicitudDTO[]> {
   const response = await axios.get<SolicitudDTO[]>(`${urlSolicitudes}/usuario/${guid}`);
   return response.data;}
+
+export async function obtenerSolicitudesPorTipo(guid: string): Promise<SolicitudDTO[]> {
+  const response = await axios.get<SolicitudDTO[]>(`${urlSolicitudes}/tipo/${guid}`);
+  return response.data;}

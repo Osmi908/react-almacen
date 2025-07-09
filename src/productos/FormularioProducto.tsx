@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 import { ProductoCreacionDTO } from "./productos.model";
 import { urlCategorias, urlProductos, urlClaveValor } from "../utils/endpoints";
 import  {crearProductoSchema}  from "../Validaciones";
+import { categoriaDTO } from "../categorias/Categorias.model";
 function TransitionSlide(props: any) {
   return <Slide {...props} direction="up" />;
 }
@@ -23,8 +24,7 @@ interface Mensaje {
 }
 
 const FormularioProducto: React.FC = () => {
-  const [categorias, setCategorias] = useState<{ id: number; descripcion: string }[]>([]);
-  const [estado, setEstado] = useState<{ clv_codigo: number; clv_descripcion: string }[]>([]);
+  const [categorias, setCategorias] = useState<categoriaDTO[]>([]);
   const [mensaje, setMensaje] = useState<Mensaje>({ tipo: "success", texto: "", open: false });
   const [loading, setLoading] = useState(false);
 
@@ -46,11 +46,6 @@ const FormularioProducto: React.FC = () => {
     axios.get(urlCategorias)
       .then(res => setCategorias(res.data))
       .catch(err => console.error("Error al cargar categorías", err));
-  }, []);
-  useEffect(() => {
-    axios.get(`${urlClaveValor}/cla_estado_producto`)
-      .then(res => setEstado(res.data))
-      .catch(err => console.error("Error al cargar estados", err));
   }, []);
   const onSubmit = (data: ProductoCreacionDTO) => {
     const formData = new FormData();
@@ -81,7 +76,7 @@ const FormularioProducto: React.FC = () => {
               <Select {...field} label="Categoría">
                 <MenuItem value={0}><em>Seleccione una categoría</em></MenuItem>
                 {categorias.map(c => (
-                  <MenuItem key={c.id} value={c.id}>{c.descripcion}</MenuItem>
+                  <MenuItem key={c.id_categoria} value={c.id_categoria}>{c.nombre}</MenuItem>
                 ))}
               </Select>
             )}
@@ -126,25 +121,6 @@ const FormularioProducto: React.FC = () => {
             />
           )}
         />
-      </Box>
-
-      <Box mb={2}>
-      <FormControl fullWidth error={!!errors.id_categoria}>
-          <InputLabel>Categoría</InputLabel>
-          <Controller
-            name="estado"
-            control={control}
-            render={({ field }) => (
-              <Select {...field} label="Estado">
-                <MenuItem value={0}><em>Seleccione un estado</em></MenuItem>
-                {estado.map(c => (
-                  <MenuItem key={c.clv_codigo} value={c.clv_codigo}>{c.clv_descripcion}</MenuItem>
-                ))}
-              </Select>
-            )}
-          />
-          <FormHelperText>{errors.id_categoria?.message}</FormHelperText>
-        </FormControl>
       </Box>
 
       <Box mb={2}>

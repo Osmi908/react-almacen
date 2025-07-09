@@ -1,51 +1,48 @@
-import React from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { detalleSolicitudSchema, Solicitud, solicitudSchema } from "./solicitud.model";
-import ListadoSolicitudes from "./ListadoSolicitudes";
+import React, { useEffect, useState } from "react";
+import {
+  Box, Tabs, Tab, Button, Typography, Divider, Stack
+} from "@mui/material";
+import PendingIcon from "@mui/icons-material/HourglassTop";
+import DoneIcon from "@mui/icons-material/TaskAlt";
+import InventoryIcon from "@mui/icons-material/Inventory";
 
-const GestionSolicitudes = () => {
-    const { control, handleSubmit } = useForm<Solicitud>({
-        resolver: zodResolver(detalleSolicitudSchema),
-    });
+import TablaSolicitudes from "./TablaSolicitudes";
+import { verificarDisponibilidadGlobal } from "./VerificarDisponibilidad";
 
-    const { fields, update } = useFieldArray({
-        control,
-        name: "detalles", // Path to the activos array in Solicitud
-    });
+export default function GestionSolicitudes() {
+  const [tabIndex, setTabIndex] = useState(0);
 
-    const onSubmit = (data: Solicitud) => { 
-        // Aquí puedes enviar la información a la API para guardar en la base de datos
-        console.log("Datos enviados", data);
-    };
+  const handleChangeTab = (_e: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+  };
 
-    return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>Gestión de Solicitudes</h1>
-      <h2>Detalles</h2>
-      {fields.map((field, index) => (
-        <div key={field.id_producto}>
-          <input title="b"
-            defaultValue={field.nombre_producto}
-            onChange={(e) =>
-              update(index, { ...field, nombre_producto: e.target.value })
-            }
-          />
-          <input title="a"
-            type="number"
-            defaultValue={field.cantidad}
-            onChange={(e) =>
-              update(index, { ...field, cantidad: Number(e.target.value) })
-            }
-          />
-        </div>
-      ))}
-      <button type="submit">Guardar</button>
-      <ListadoSolicitudes titulo={"Solicitudes Pendientes"} admin={true}/>
-    </form>
-    
-    );
-};
+  return (
+    <Box p={2}>
+      <Typography variant="h5" gutterBottom>
+        Gestión de Solicitudes de Producto
+      </Typography>
 
-export default GestionSolicitudes;
+      <Stack direction="row" justifyContent="space-between" mb={2}>
+        <Tabs value={tabIndex} onChange={handleChangeTab}>
+          <Tab icon={<PendingIcon />} label="Pendientes" />
+          <Tab icon={<DoneIcon />} label="Gestionadas" />
+        </Tabs>
+        <Button
+          variant="outlined"
+          startIcon={<InventoryIcon />}
+          onClick={verificarDisponibilidadGlobal}
+        >
+          Verificar Stock Global
+        </Button>
+      </Stack>
+
+      <Divider sx={{ mb: 2 }} />
+
+      {tabIndex === 0 ? (
+        <TablaSolicitudes tipo="pendientes" />
+      ) : (
+        <TablaSolicitudes tipo="gestionadas" />
+      )}
+    </Box>
+  );
+}

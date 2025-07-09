@@ -21,7 +21,7 @@ export default function LandingPage() {
     <Autorizado
         autorizado={<SolicitanteDashboard />}
         noAutorizado={<></>}
-        roles={["solicitante", "administrativo","acad_estudiante,act_solicitante"]}  // Define los roles correspondientes para los que crean solicitudes
+        roles={["solicitante", "administrativo","acad_estudiante","act_solicitante"]}  // Define los roles correspondientes para los que crean solicitudes
       />
       {/* Panel para Administrador */}
       <Autorizado

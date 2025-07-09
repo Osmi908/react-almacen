@@ -40,6 +40,7 @@ export interface SolicitudDTO{
     usuario_solicitud:string;
     nombre_usuario_solicitud:string;
     usuario_revisor:string;
+    nombre_usuario_revisor:string;
     descripcion:string;
     cla_estado_solicitud:number;
     estado:string;

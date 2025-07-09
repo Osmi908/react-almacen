@@ -140,7 +140,12 @@ export default function Login() {
             </Box>
           </CardContent>
         </Card>
+        <small> usuario administrador : ABC9861988 pass:9861988 </small>
+      <small> usuario solicitante : jparedes pass:6100722 </small>
+      <small> usuario encargado de almacen : FBG4800492 pass:4800492</small>
+      <small> usuario asistente de encargado :  pass: </small>
       </Container>
+      
     </Box>
   );
 }

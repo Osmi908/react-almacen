@@ -11,6 +11,13 @@ import DetalleSolicitud from "./DetalleSolicitud";
 import Autorizado from "../auth/Autorizado";
 import { Link } from "react-router-dom";
 import { url } from "node:inspector";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import SearchIcon from '@mui/icons-material/Search';
+import BuildIcon from '@mui/icons-material/Build';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   TableSortLabel, TextField, Paper, TablePagination
@@ -39,6 +46,66 @@ export default function ListadoSolicitudes(props:listaSolicitudesProps) {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const [pagina, setPagina] = useState(0);
   const [filasPorPagina, setFilasPorPagina] = useState(5);
+  const renderEstadoSolicitud = (estado: number, nombre?: string | null) => {
+  switch (estado) {
+    case 1:
+      return (
+        <>
+          <HourglassEmptyIcon sx={{ color: "gray", mr: 1 }} />
+          {nombre || "Pendiente"}
+        </>
+      );
+    case 2:
+      return (
+        <>
+          <SearchIcon sx={{ color: "gray", mr: 1 }} />
+          {nombre || "En Revisión"}
+        </>
+      );
+    case 3:
+      return (
+        <>
+          <BuildIcon sx={{ color: "blue", mr: 1 }} />
+          {nombre || "Aprobada Parcialmente"}
+        </>
+      );
+    case 4:
+      return (
+        <>
+          <CheckCircleIcon sx={{ color: "green", mr: 1 }} />
+          {nombre || "Aprobada"}
+        </>
+      );
+    case 5:
+      return (
+        <>
+          <LocalShippingIcon sx={{ color: "orange", mr: 1 }} />
+          {nombre || "En Proceso de Entrega"}
+        </>
+      );
+    case 6:
+      return (
+        <>
+          <InventoryIcon sx={{ color: "#2e7d32", mr: 1 }} />
+          {nombre || "Entregada"}
+        </>
+      );
+    case 7:
+      return (
+        <>
+          <CancelIcon sx={{ color: "red", mr: 1 }} />
+          {nombre || "Rechazada"}
+        </>
+      );
+    default:
+      return (
+        <>
+          <HourglassEmptyIcon sx={{ color: "gray", mr: 1 }} />
+          {nombre || "Desconocido"}
+        </>
+      );
+  }
+};
 
   const SolicitudesFiltradas = solicitudes
   .filter((a) => (a.nombre_usuario_solicitud ?? '').toLowerCase().includes(busqueda.toLowerCase()))
@@ -127,11 +194,11 @@ export default function ListadoSolicitudes(props:listaSolicitudesProps) {
               </TableCell>
               <TableCell>
                 <TableSortLabel
-                  active={orderBy === "nombre_usuario_solicitud"}
+                  active={orderBy === "nombre_usuario_revisor"}
                   direction={order}
                   onClick={() => setOrder(order === "asc" ? "desc" : "asc")}
                 >
-                  USUARIO
+                  REVISADO POR
                 </TableSortLabel>
               </TableCell>
               <TableCell>
@@ -152,11 +219,11 @@ export default function ListadoSolicitudes(props:listaSolicitudesProps) {
               .map((solicitud,index) => (
                 <TableRow key={index}>
                   <TableCell>{solicitud.prioridad}</TableCell>
-                  <TableCell>{solicitud.nombre_usuario_solicitud}</TableCell>
+                  <TableCell>{solicitud.nombre_usuario_revisor|| "sin revision"}</TableCell>
                   <TableCell><CampoFecha fecha={solicitud.fecha_solicitud}/></TableCell>
-                  
-                  <TableCell>{solicitud.estado}</TableCell>
-                  <TableCell>                      <Button
+                  <TableCell>{renderEstadoSolicitud(solicitud.cla_estado_solicitud,solicitud.nombre_usuario_revisor)}</TableCell>
+                  <TableCell>                      
+                    <Button
                         onClick={() => cargarDetalles(solicitud.id_solicitud,solicitud)}
                       >
                         Ver Detalle

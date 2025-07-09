@@ -156,9 +156,7 @@ export default function Menu(props:menuProps) {
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             Activos fijos
           </Typography>
-          {props.themeToggle}
-        </Toolbar>
-        <IconButton onClick={handleUserMenuClick} color="inherit">
+                  <IconButton onClick={handleUserMenuClick} color="inherit">
             <Avatar>{props.userName.charAt(0)}</Avatar>
           </IconButton>
           <Menu1
@@ -172,7 +170,19 @@ export default function Menu(props:menuProps) {
             {props.themeToggle && <MenuItem onClick={handleUserMenuClose}>{props.themeToggle}</MenuItem>}
             <MenuItem onClick={() => alert('Cerrar sesión')}>Cerrar sesión</MenuItem>
           </Menu1>
+        </Toolbar>
+
       </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <ListaMenu/>
+        <Divider/>
+      </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 2 }} >
         <DrawerHeader />
         <Container maxWidth="lg">
